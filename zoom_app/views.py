@@ -144,8 +144,6 @@ def meeting(request):
 def chat(request):
     if request.method == 'GET':
         _params = request.GET
-        print(request.GET)
-        print(request.POST)
         user = _params.get('user')
         url = f'https://api.zoom.us/v2/chat/users/{user}/messages'
         
@@ -177,7 +175,8 @@ def chat(request):
         try:
             res = requests.request("GET", url, headers=headers, params=params)
             if res.status_code == 200:
-                return JsonResponse({'success':True, 'res':res.json()})
+                msgs = res.json().get('messages')
+                return JsonResponse({'success':True, 'res':msgs})
             else:
                 return JsonResponse({'success':False, 'res':res.json()})
         except:
@@ -186,6 +185,9 @@ def chat(request):
     if request.method == 'POST':
         user = json.loads(request.body).get('user')
         url = f'https://api.zoom.us/v2/chat/users/{user}/messages'
+        
+        auth_token = ZoomAuth.objects.first().auth_token
+        
         headers = {
             "authorization": f"Bearer {auth_token}",
             'content-type': 'application/json'
@@ -198,6 +200,7 @@ def chat(request):
         at_pos = json.loads(request.body).get('at_pos',None)
         
         body = {}
+        body['message'] = msg
         
         if to_contact:
             body['to_contact'] = to_contact
@@ -224,15 +227,18 @@ def chat(request):
                     }
                 ats.append(at_items)
         
-        body['at_items'] = ats
+            body['at_items'] = ats
         
         try:
-            res = requests.request("POST", url, headers=headers, data=body)
+            print(body)
+            res = requests.request("POST", url, headers=headers, data=json.dumps(body))
+            print(res.text)
             if res.status_code == 200:
                 return JsonResponse({'success':True, 'res':res.json()})
             else:
                 return JsonResponse({'success':False, 'res':res.json()})
-        except:
+        except Exception as e:
+            print(e)
             return JsonResponse({'success':False})    
         
 

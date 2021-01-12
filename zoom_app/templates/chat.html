@@ -1,23 +1,64 @@
 <!DOCTYPE html>
 <header></header>
-<body>
-    <ul>
+<body onload="get_chats()">
+    <ul id='msgs'>
     </ul>
 </body>
+<footer>
+    <input type="text" id="inp_msg" name="msgs"><br><br>
+    <input type="submit" value="Submit" onclick="send_msg()">
+</footer>
 <script>
-    setInterval(get_chats,10000)
+    setInterval(get_chats,50000)
     function get_chats(){
     var url_string = window.location.href;
     var url = new URL(url_string);
     var name = url.searchParams.get("name");
     var id = url.searchParams.get("id");
 
-    var apiurl = "http://da4ca805decf.ngrok.io/app/chat/?user="+"me"+"&to_channel="+id;
+    var apiurl = "http://127.0.0.1:8000/app/chat/?user="+"me"+"&to_channel="+id;
     fetch(apiurl,{method:'GET',params:{user:'me', to_channel:id}})
     .then(function(response){
       return response.json();
     }).then(function(data){
-        console.log(data)
+        var ul    = document.getElementById("msgs");
+        var msgs = data.res;
+        for (var i = msgs.length-1; i >= 0 ; i--){
+            crt_msgs = msgs[i];
+            _msg = crt_msgs.sender+' >> '+crt_msgs.message+'   * '+crt_msgs.date_time;
+            _msg_id = crt_msgs.timestamp;
+            if(ul.children.length==0){
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(_msg));
+                li.id = _msg_id;
+                ul.appendChild(li);
+            }
+            else{
+                var last_msg = ul.children[ul.children.length - 1];
+                if(last_msg.id < _msg_id){
+                    var li = document.createElement('li');
+                    li.appendChild(document.createTextNode(_msg));
+                    li.id = _msg_id;
+                    ul.appendChild(li);
+                }
+            }
+        }
     })
     }
+
+    function send_msg(){
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+        var msg_obj = document.getElementById("inp_msg");
+        var msg = msg_obj.value;
+        var apiurl = "http://127.0.0.1:8000/app/chat/?user="+"me"+"&to_channel="+id;
+        fetch(apiurl,{method:'POST',body:JSON.stringify({user:'me', to_channel:id, message:msg})})
+        .then(function(response){
+          return response.json();
+        }).then(function(data){
+            console.log(data);
+        })
+    }
+
 </script>

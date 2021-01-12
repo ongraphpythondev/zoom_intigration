@@ -6,7 +6,7 @@
 
 <script>
     function apicall(){
-        var apiurl = "http://da4ca805decf.ngrok.io/app/contacts/"
+        var apiurl = "http://127.0.0.1:8000/app/contacts/"
         fetch(apiurl,{method:'GET',params:{user:'me'}})
         .then(function(response){
           return response.json();
