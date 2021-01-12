@@ -137,7 +137,8 @@ def meeting(request):
                 return JsonResponse({'success':True, 'res':res.json()})
             else:
                 return JsonResponse({'success':False, 'res':res.json()})
-        except:
+        except Exception as e:
+            print(e)
             return JsonResponse({'success':False})
         
 @csrf_exempt

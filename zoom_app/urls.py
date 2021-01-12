@@ -1,4 +1,4 @@
-from zoom_app.views import channel,code_callback,contacts, chat
+from zoom_app.views import channel, code_callback, contacts, chat, meeting
 from django.urls import path, include
 
 urlpatterns = [
@@ -6,4 +6,5 @@ urlpatterns = [
     path('callback/', code_callback),
     path('contacts/', contacts),
     path('chat/', chat),
+    path('meeting/', meeting),
 ]

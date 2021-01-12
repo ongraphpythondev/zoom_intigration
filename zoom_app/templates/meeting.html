@@ -1,1 +1,37 @@
 <!DOCTYPE html>
+<body>
+<input type="text" id="topic" name="topic"><br>
+<input type="text" id="start_time" name="start_time"><br>
+<input type="text" id="duration" name="duration"><br>
+<input type="text" id="timezone" name="timezone"><br>
+<input type="text" id="password" name="password"><br>
+<input type="text" id="agenda" name="agenda"><br>
+<input type="submit" value="Submit" onclick="create_meeting()">
+</body>
+<script>
+    function create_meeting(){
+        var apiurl = 'http://127.0.0.1:8000/app/meeting/'
+        var topic = document.getElementById('topic').value;
+        var start_time = document.getElementById('start_time').value;
+        var duration = document.getElementById('duration').value;
+        var timezone = document.getElementById('timezone').value;
+        var password = document.getElementById('password').value;
+        var agenda = document.getElementById('agenda').value;
+        var payload = JSON.stringify({
+            topic: topic,
+            start_time:start_time,
+            duration:duration,
+            timezone:timezone,
+            password:password,
+            agenda:agenda
+        });
+        console.log(payload);
+        fetch(apiurl,{method:'POST',body:payload})
+        .then(function(response){
+          return response.json();
+        })
+        .then(function(data){
+            console.log(data);
+        })
+    }
+</script>
