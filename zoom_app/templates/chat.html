@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<header></header>
+<body>
+    <ul>
+    </ul>
+</body>
+<script>
+    setInterval(get_chats,10000)
+    function get_chats(){
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var name = url.searchParams.get("name");
+    var id = url.searchParams.get("id");
+
+    var apiurl = "http://da4ca805decf.ngrok.io/app/chat/?user="+"me"+"&to_channel="+id;
+    fetch(apiurl,{method:'GET',params:{user:'me', to_channel:id}})
+    .then(function(response){
+      return response.json();
+    }).then(function(data){
+        console.log(data)
+    })
+    }
+</script>

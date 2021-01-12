@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<body  onload="apicall()">
+<ul id='channels'>
+</ul>
+</body>
+
+<script>
+    function apicall(){
+        var apiurl = "http://da4ca805decf.ngrok.io/app/contacts/"
+        fetch(apiurl,{method:'GET',params:{user:'me'}})
+        .then(function(response){
+          return response.json();
+        }).then(function(data){
+          console.log(data)
+          var ul = document.getElementById('channels')  
+          for (var i = 0; i < data.res.length; i++)
+                var cha = data.res[i];
+                var name = cha.name;
+                var id = cha.id;
+                var li = document.createElement('a');
+                li.appendChild(document.createTextNode(name));
+                li.id = id;
+                console.log(name)
+                console.log(id)
+                li.href = 'http://127.0.0.1:8000/zoom/chat.html/?name='+name+'&id='+id;
+                ul.appendChild(li);
+        });
+    }
+</script>
