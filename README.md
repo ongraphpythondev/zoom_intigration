@@ -36,3 +36,4 @@ Before running the the django project:
   1) change base_url in config.py 
   2) change 'Redirect URL for OAuth' in the zoom market app to be same as zoom_auth_callback_url from config.py 
   3) add the Redirect URL to 'Whitelist URL' in the zoom market app
+  4) change redirect_uri in zoom_app/templates/login.html
