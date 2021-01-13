@@ -27,6 +27,7 @@ def code_callback(request):
         if res.status_code == 200:
             token = res.json().get('access_token')
         else:
+            print(res.text)
             return JsonResponse({'success':False})
 
         auth.auth_token = token
@@ -89,7 +90,7 @@ def channel(request):
 @csrf_exempt     
 def meeting(request):
     if request.method == 'POST':
-        user = json.loads(request.body).get('user')
+        user = json.loads(request.body).get('user','me')
         url = f'https://api.zoom.us/v2/users/{user}/meetings'
         
         meeting_topic = json.loads(request.body).get('topic')
@@ -132,10 +133,40 @@ def meeting(request):
         }
         
         try:
-            res = requests.request("POST", url, headers=headers, data=body)
+            res = requests.request("POST", url, headers=headers, data=json.dumps(body))
+            print(res.status_code,'\n')
+            if res.status_code == 201:
+                return JsonResponse({'success':True, 'res':res.json()})
+            else:
+                print(res.text)
+                return JsonResponse({'success':False, 'res':res.json()})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'success':False})
+        
+    if request.method == 'GET':
+        _params = request.GET
+        user = _params.get('user','me')
+        url = f'https://api.zoom.us/v2/users/{user}/meetings'
+        
+        auth_token = ZoomAuth.objects.first().auth_token
+        
+        headers = {
+            "authorization": f"Bearer {auth_token}",
+            'content-type': 'application/json'
+        }
+        
+        params = {
+            "type":"scheduled",
+            "page_size":"30"
+        }
+        
+        try:
+            res = requests.request("GET", url, headers=headers, params=params)
             if res.status_code == 200:
                 return JsonResponse({'success':True, 'res':res.json()})
             else:
+                print(res.text)
                 return JsonResponse({'success':False, 'res':res.json()})
         except Exception as e:
             print(e)

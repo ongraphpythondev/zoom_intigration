@@ -1,16 +1,36 @@
 <!DOCTYPE html>
-<body>
+<body onload="sch_meetings()">
+<h3>create meetings</h3>
+<label for="topic">topic:</label>
 <input type="text" id="topic" name="topic"><br>
+
+<label for="start_time">start_time:</label>
 <input type="text" id="start_time" name="start_time"><br>
+
+<label for="duration">duration:</label>
 <input type="text" id="duration" name="duration"><br>
+
+<label for="timezone">timezone:</label>
 <input type="text" id="timezone" name="timezone"><br>
+
+<label for="password">password:</label>
 <input type="text" id="password" name="password"><br>
+
+<label for="agenda">agenda:</label>
 <input type="text" id="agenda" name="agenda"><br>
+
 <input type="submit" value="Submit" onclick="create_meeting()">
+<br>
+<a id="meeting"></a><br>
+<a id="meeting_det"></a>
+
+<h3>meetings</h3>
+<ul id='all_meetings'>
+</ul>
 </body>
 <script>
     function create_meeting(){
-        var apiurl = 'http://127.0.0.1:8000/app/meeting/'
+        var apiurl = 'http://127.0.0.1:8000/app/meeting/';
         var topic = document.getElementById('topic').value;
         var start_time = document.getElementById('start_time').value;
         var duration = document.getElementById('duration').value;
@@ -18,6 +38,7 @@
         var password = document.getElementById('password').value;
         var agenda = document.getElementById('agenda').value;
         var payload = JSON.stringify({
+            user:'me',
             topic: topic,
             start_time:start_time,
             duration:duration,
@@ -31,7 +52,47 @@
           return response.json();
         })
         .then(function(data){
-            console.log(data);
+            console.log(data.res);
+            m_link = document.getElementById("meeting")
+            m_link.href = data.res.join_url
+            m_link.innerHTML = ">> "+data.res.topic+" <<"
+
+            m_det = document.getElementById("meeting_det")
+            m_det.innerHTML = "id: "+data.res.id+"\npasscode: "+data.res.password+"\nurl :"+data.res.join_url;
+            var ul = document.getElementById('all_meetings')
+            var id = data.res.id;
+            var name = data.res.topic;
+            var url = data.res.join_url;
+            var li = document.createElement('a');
+            li.appendChild(document.createTextNode(name));
+            li.id = id;
+            li.href = url;
+            ul.appendChild(li);
+            ul.appendChild(document.createElement('br'));
+        })
+    }
+
+    function sch_meetings(){
+        var apiurl = 'http://127.0.0.1:8000/app/meeting/';
+        fetch(apiurl,{method:'GET',params:{user:"me"}})
+        .then(function(response){
+          return response.json();
+        })
+        .then(function(data){
+            console.log(data.res);
+            var ul = document.getElementById('all_meetings')  
+            for (var i = 0; i < data.res.meetings.length; i++){
+                var m = data.res.meetings[i];
+                var id = m.id;
+                var name = m.topic;
+                var url = m.join_url;
+                var li = document.createElement('a');
+                li.appendChild(document.createTextNode(name));
+                li.id = id;
+                li.href = url;
+                ul.appendChild(li);
+                ul.appendChild(document.createElement('br'));
+            }
         })
     }
 </script>
