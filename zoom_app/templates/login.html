@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <header>zoom</header>
 <body>
-    <a href="https://zoom.us/oauth/authorize?response_type=code&redirect_uri=http://b86df712ffc0.ngrok.io/app/callback/&client_id=N13NKwzWSyOHDFoYVkFxzg">zoom app</a>
+    <a id='login'>zoom app</a>
 </body>
+<script>
+    var url = "https://zoom.us/oauth/authorize";
+    var response_type = "code";
+    var redirect_uri = "http://b86df712ffc0.ngrok.io/app/callback/";
+    var client_id = "N13NKwzWSyOHDFoYVkFxzg";
+    var ref = url+"?response_type="+response_type+"&redirect_uri="+redirect_uri+"&client_id="+client_id;
+    login_link = document.getElementById("login");
+    login_link.href = ref;
+</script>
