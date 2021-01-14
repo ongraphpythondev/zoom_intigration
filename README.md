@@ -5,7 +5,7 @@ This POC is an example of procidure of integrating zoom apis to any project. Thi
   3) zoom chat
 
 This POC uses apis provided by zoom. Paid accounts provide more functionality to these api (eg add more user to the app). Before using zoom apis, we need to create 
-a app on zoom market (https://marketplace.zoom.us/develop/apps) and use the client id of that app for authentication.
+a app on zoom market (https://marketplace.zoom.us/develop/create) and use the client id of that app for authentication.
   
 # Prerequisites
 You will need the following programmes properly installed on your computer.<br>
