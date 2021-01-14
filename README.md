@@ -5,7 +5,7 @@ This POC is an example of procidure of integrating zoom apis to any project. Thi
   3) zoom chat
 
 This POC uses apis provided by zoom. Paid accounts provide more functionality to these api (eg add more user to the app). Before using zoom apis, we need to create 
-a app on zoom market (https://marketplace.zoom.us/develop/apps) and use the client id of that app for authentication.
+an OAuth app on zoom market (https://marketplace.zoom.us/develop/create) and use the client id of that app for authentication.
   
 # Prerequisites
 You will need the following programmes properly installed on your computer.<br>
@@ -36,3 +36,4 @@ Before running the the django project:
   1) change base_url in config.py 
   2) change 'Redirect URL for OAuth' in the zoom market app to be same as zoom_auth_callback_url from config.py 
   3) add the Redirect URL to 'Whitelist URL' in the zoom market app
+  4) change redirect_uri in zoom_app/templates/login.html
