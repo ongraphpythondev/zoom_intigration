@@ -1,7 +1,42 @@
 <!DOCTYPE html>
-<header>
-    Menu
-</header>
-<br>
-<a href='http://127.0.0.1:8000/zoom/meeting.html'>Create a meeting</a><br>
-<a href='http://127.0.0.1:8000/zoom/channels.html'>Chat</a>
+<style>
+    .container {
+          height: 500px;
+          position: relative;
+        }
+    
+        .topic {
+            color: rgb(75, 75, 226);
+            position: absolute;
+            left: 46%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .button {
+            border-radius: 12px;
+            height: 50px;
+            width: 200px;
+            background-color: rgb(13, 81, 84);
+            color: white;
+        }
+
+</style>
+
+<body style="background-image: url('http://127.0.0.1:8000/zoom/images/background.jpg');background-size: cover;">
+    <h1 class="topic">Menu</h1>
+    <div class="container">
+          <button class="button" id="meeting" style="position:absolute;top:20%;left:43%;padding:15px" onclick="redirect_func(id)">Meeting</button>
+          <button class="button" id="chat" style="position: absolute;top:30%;left:43%;padding:15px" onclick="redirect_func(id)">Chat</button>
+    </div>
+</body>
+
+<script>
+    function redirect_func(id){
+        if(id=='meeting'){
+            location.href = 'http://127.0.0.1:8000/zoom/meeting.html';
+        }
+        if(id=='chat'){
+            location.href = 'http://127.0.0.1:8000/zoom/channels.html'
+        }
+    }
+</script>

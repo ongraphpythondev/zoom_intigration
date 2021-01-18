@@ -28,7 +28,7 @@ def code_callback(request):
             token = res.json().get('access_token')
         else:
             print(res.text)
-            return JsonResponse({'success':False})
+            return render(request,'login.html')
 
         auth.auth_token = token
         auth.save()
@@ -36,7 +36,7 @@ def code_callback(request):
         return render(request,'menu.html')
     except Exception as e:
         print(e)
-        return JsonResponse({'success':False})
+        return render(request,'login.html')
     
 @csrf_exempt
 def channel(request):

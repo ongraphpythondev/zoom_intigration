@@ -1,14 +1,52 @@
 <!DOCTYPE html>
-<header>zoom</header>
-<body>
-    <a id='login'>zoom app</a>
+<header>
+    <style>
+        .container {
+          height: 500px;
+          position: relative;
+        }
+
+        .center {
+          margin: 0;
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+        }
+
+        .topic {
+            color: rgb(75, 75, 226);
+            position: absolute;
+            left: 46%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .button {
+            border-radius: 12px;
+            height: 50px;
+            width: 200px;
+            background-color: rgb(13, 81, 84);
+            color: white;
+        }
+    </style>
+</header>
+<body style="background-image: url('http://127.0.0.1:8000/zoom/images/background.jpg');background-size: cover;">
+    <h1 class="topic">ZOOM</h1>
+    <div class="container">
+        <div class="center">
+          <button class="button" id="login">log in</button>
+        </div>
+    </div>
 </body>
 <script>
     var url = "https://zoom.us/oauth/authorize";
     var response_type = "code";
-    var redirect_uri = "http://b86df712ffc0.ngrok.io/app/callback/";
+    var redirect_uri = "http://64914de59112.ngrok.io/app/callback/";
     var client_id = "N13NKwzWSyOHDFoYVkFxzg";
     var ref = url+"?response_type="+response_type+"&redirect_uri="+redirect_uri+"&client_id="+client_id;
-    login_link = document.getElementById("login");
-    login_link.href = ref;
+    login = document.getElementById("login");
+    login.onclick = function(){
+        location.href = ref;
+    }   ;
 </script>
