@@ -1,32 +1,92 @@
 <!DOCTYPE html>
-<body onload="sch_meetings()">
-<h3>create meetings</h3>
-<label for="topic">topic:</label>
-<input type="text" id="topic" name="topic"><br>
+<header>
+    <header>
+        <style>
+            .content{
+                width: 900px;
+            }
 
-<label for="start_time">start_time:</label>
-<input type="text" id="start_time" name="start_time"><br>
+            .meeting_list {
+              height: 500px;
+              position: relative;
+            }
 
-<label for="duration">duration:</label>
-<input type="text" id="duration" name="duration"><br>
+            .meeting {
+                margin: 0;
+                position: relative;
+            }
+    
+            .center {
+              margin: 0;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+            }
+    
+            .topic {
+                color: rgb(218, 228, 27);
+                position: relative;
+                left: 50%;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+    
+            .button {
+                border-radius: 12px;
+                height: 30px;
+                width: 80px;
+                background-color: rgb(13, 81, 84);
+                color: white;
+                margin-bottom: 3px;
+                margin-right: 10px;
+                margin-left: 10px;
+            }
 
-<label for="timezone">timezone:</label>
-<input type="text" id="timezone" name="timezone"><br>
+            .input_field{
+                border-radius: 12px;
+                height: 20px;
+                left: 50%;
+                margin: 0;
+                position: relative;
+                margin-bottom: 5px;
+            }
 
-<label for="password">password:</label>
-<input type="text" id="password" name="password"><br>
+            .submit_btn {                
+                border-radius: 12px;
+                height: 40px;
+                width: 90px;
+                background-color: rgb(13, 81, 84);
+                color: white;
+                margin-bottom: 3px;
+                margin-right: 10px;
+                margin-left: 10px;
+                left: 55%;
+                margin: 0;
+                position: relative;
+            }
+        </style>
+    </header>
+</header>
+<body onload="sch_meetings()" style="background-image: url('http://127.0.0.1:8000/zoom/images/background.jpg');background-size: cover;">
+    <div class='content'>
+        <h1 class='topic'>Create Meeting</h3>
+        <input type="text" class='input_field' id="topic" name="topic" placeholder='Topic'><br>
+        <input type="text" class='input_field' id="start_time" name="start_time" placeholder='Start Time'><br>
+        <input type="text" class='input_field' id="duration" name="duration" placeholder='Duration'><br>
+        <input type="text" class='input_field' id="timezone" name="timezone" placeholder='Timezone'><br>
+        <input type="text" class='input_field' id="password" name="password" placeholder='Password'><br>
+        <input type="text" class='input_field' id="agenda" name="agenda" placeholder='Agenda'><br>
 
-<label for="agenda">agenda:</label>
-<input type="text" id="agenda" name="agenda"><br>
+        <input type="submit" class='submit_btn' value="Create" onclick="create_meeting()"><br>
+        <div id='join_m'></div>
 
-<input type="submit" value="Submit" onclick="create_meeting()">
-<br>
-<a id="meeting"></a><br>
-<a id="meeting_det"></a>
+        <a id="meeting"></a><br>
 
-<h3>meetings</h3>
-<ul id='all_meetings'>
-</ul>
+        <h1 class='topic'>Scheduled Meetings</h1>
+        <div id='all_meetings' class='all_meetings'>
+        </div>
+    </div>
 </body>
 <script>
     function create_meeting(){
@@ -54,21 +114,33 @@
         .then(function(data){
             console.log(data.res);
             m_link = document.getElementById("meeting")
-            m_link.href = data.res.join_url
-            m_link.innerHTML = ">> "+data.res.topic+" <<"
 
-            m_det = document.getElementById("meeting_det")
-            m_det.innerHTML = "id: "+data.res.id+"\npasscode: "+data.res.password+"\nurl :"+data.res.join_url;
-            var ul = document.getElementById('all_meetings')
+            m_det = document.getElementById("join_m")
+            var m_button = document.createElement('button');
+            m_button.appendChild(document.createTextNode('JOIN'+' '+data.res.topic));
+            m_button.onclick = function redirect_fun(){location.href = data.res.join_url;};
+            m_button.className = "submit_btn";
+            m_det.appendChild(m_button)
+
+
+            var meeting_list = document.getElementById('all_meetings') 
             var id = data.res.id;
             var name = data.res.topic;
             var url = data.res.join_url;
-            var li = document.createElement('a');
-            li.appendChild(document.createTextNode(name));
-            li.id = id;
-            li.href = url;
-            ul.appendChild(li);
-            ul.appendChild(document.createElement('br'));
+            var cont = document.createElement('div');
+            cont.className = 'meeting';
+            var button = document.createElement('button');
+            button.appendChild(document.createTextNode('JOIN'));
+            button.id = id;
+            button.onclick = function redirect_fun(){location.href = url;};
+            button.className = "button";
+            cont.appendChild(button);
+
+            name_node = document.createElement('a');
+            name_node.appendChild(document.createTextNode(name))
+            name_node.style = "color: white;font-size: 20px;color:yellow "
+            cont.appendChild(name_node);
+            meeting_list.appendChild(cont);
         })
     }
 
@@ -80,18 +152,29 @@
         })
         .then(function(data){
             console.log(data.res);
-            var ul = document.getElementById('all_meetings')  
+            var meeting_list = document.getElementById('all_meetings')  
             for (var i = 0; i < data.res.meetings.length; i++){
                 var m = data.res.meetings[i];
                 var id = m.id;
                 var name = m.topic;
                 var url = m.join_url;
-                var li = document.createElement('a');
-                li.appendChild(document.createTextNode(name));
-                li.id = id;
-                li.href = url;
-                ul.appendChild(li);
-                ul.appendChild(document.createElement('br'));
+
+                var cont = document.createElement('div');
+                cont.className = 'meeting';
+
+                var button = document.createElement('button');
+                button.appendChild(document.createTextNode('JOIN'));
+                button.id = id;
+                button.onclick = function redirect_fun(){location.href = url;};
+                button.className = "button";
+
+                cont.appendChild(button);
+
+                name_node = document.createElement('a');
+                name_node.appendChild(document.createTextNode(name))
+                name_node.style = "color: white;font-size: 20px;color:yellow "
+                cont.appendChild(name_node);
+                meeting_list.appendChild(cont);
             }
         })
     }
