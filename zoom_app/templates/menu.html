@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<style>
-    .container {
-      height: 500px;
-      position: relative;
-    }
+<head>
+    <style>
+        .container {
+          height: 500px;
+          position: relative;
+        }
 
-    .topic {
-        color: rgb(75, 75, 226);
-        position: absolute;
-        left: 46%;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    .button {
-        border-radius: 12px;
-        height: 50px;
-        width: 200px;
-        background-color: rgb(13, 81, 84);
-        color: white;
-    }
+        .topic {
+            color: rgb(75, 75, 226);
+            position: absolute;
+            left: 46%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .button {
+            border-radius: 12px;
+            height: 50px;
+            width: 200px;
+            background-color: rgb(13, 81, 84);
+            color: white;
+            margin-bottom: 40px;
+        }
 
-</style>
+    </style>
+</head>
 
 <body style="background-image: url('http://127.0.0.1:8000/zoom/images/background.jpg');background-size: cover;">
-    <h1 class="topic">Menu</h1>
-    <div class="container">
-          <button class="button" id="meeting" style="position:absolute;top:20%;left:43%;padding:15px" onclick="redirect_func(id)">Meeting</button>
-          <button class="button" id="chat" style="position: absolute;top:30%;left:43%;padding:15px" onclick="redirect_func(id)">Chat</button>
+    <div class='content'>
+        <h1 class="topic">Menu</h1>
+        <div class="container">
+              <button class="button" id="meeting" style="position:absolute;top:20%;left:43%;padding:15px" onclick="redirect_func(id)">Meeting</button>
+              <button class="button" id="chat" style="position: absolute;top:30%;left:43%;padding:15px" onclick="redirect_func(id)">Chat</button>
+        </div>
     </div>
 </body>
 

@@ -1,19 +1,50 @@
 <!DOCTYPE html>
-<header></header>
+<head>
+    <style>
+        .topic {
+            color: rgb(75, 75, 226);
+            position: absolute;
+            left: 46%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .msq_btm { 
+            border-radius: 12px;
+            height: 40px; 
+            position: fixed; 
+            bottom:0%;
+            width:80%; 
+            background-color: #636363; 
+            opacity: 1;
+        }
+
+        .msq_btn { 
+            border-radius: 12px;
+            height: 45px; 
+            position: fixed; 
+            bottom:0%;
+            width:15%;
+            left:84%; 
+            background-color: #636363; 
+            opacity: 1;
+        }
+
+    </style>
+</head>
 <body onload="get_chats()">
     <ul id='msgs'>
     </ul>
 </body>
 <footer>
-    <input type="text" id="inp_msg" name="msgs"><br><br>
-    <input type="submit" value="Submit" onclick="send_msg()">
+    <input type="text" class='msq_btm' id="inp_msg" name="msgs"><br><br>
+    <input type="submit" class='msq_btn' value="Submit" onclick="send_msg()">
 </footer>
 <script>
-    setInterval(get_chats,50000)
+    setInterval(get_chats,3000)
     function get_chats(){
     var url_string = window.location.href;
     var url = new URL(url_string);
-    var name = url.searchParams.get("name");
+    // var name = url.searchParams.get("name");
     var id = url.searchParams.get("id");
 
     var apiurl = "http://127.0.0.1:8000/app/chat/?user="+"me"+"&to_channel="+id;

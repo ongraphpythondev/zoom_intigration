@@ -80,6 +80,7 @@ def channel(request):
         }
         try:
             res = requests.request("GET", url, headers=headers)
+            print(res.json())
             if res.status_code == 200:
                 return JsonResponse({'success':True, 'res':res.json()})
             else:
@@ -299,6 +300,7 @@ def contacts(request):
         try:
             res = requests.request("GET", url, headers=headers, params=params)
             if res.status_code == 200:
+                print(res.json())
                 return JsonResponse({'success':True, 'res':res.json().get('channels')})
             else:
                 return JsonResponse({'success':False, 'res':res.json()})
