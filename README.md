@@ -37,7 +37,14 @@ Before running the the django project:
   2) change 'Redirect URL for OAuth' in the zoom market app to be same as zoom_auth_callback_url from config.py 
   3) add the Redirect URL to 'Whitelist URL' in the zoom market app
   4) change redirect_uri in zoom_app/templates/login.html
-  
+
+# Functionalities Included:
+   1) Create Meetings on zoom
+   2) List Scheduled meetings on zoom
+   3) Joining Meetings
+   4) List available chat channels on zoom
+   5) Chat on any channel
+
 # Testing:
 login/authentication : http://127.0.0.1:8000/zoom/login.html  --- must login once before testing any other apis<br>
 menu/functionalities : http://127.0.0.1:8000/zoom/menu.html<br>
